@@ -19,7 +19,6 @@ class Videoteca.Main : GLib.Object
 
 		var plugins = make_plugins ();
 		var mainwindow = make_mainwindow (plugins);
-		stdout.printf ("Hello, World 2\n");
 		mainwindow.show_all ();
 
 		Gtk.main ();

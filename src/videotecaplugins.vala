@@ -12,7 +12,7 @@
  *	  Luiz Armesto <luiz.armesto@gmail.com>
  */
 
-public class Videoteca.Plugins
+public class Videoteca.Plugins : GLib.Object
 {
 	public Peas.Engine engine;
 	public PeasGtk.PluginManager widget;
@@ -20,13 +20,13 @@ public class Videoteca.Plugins
 	public Plugins (string path)
 	{
 		stdout.printf ("Plugins path: %s\n", path);
-		this.engine = Peas.Engine.get_default();
-		this.engine.add_search_path(path, null);
-		this.engine.enable_loader("python");
-		unowned GLib.List<Peas.PluginInfo> plugins_list = this.engine.get_plugin_list();
-		var first_plugin = plugins_list.nth_data(0);
-		stdout.printf ("Plugins list: %s\n", first_plugin.get_name());
-		this.engine.load_plugin(first_plugin);
+		this.engine = Peas.Engine.get_default ();
+		this.engine.add_search_path (path, null);
+		this.engine.enable_loader ("python");
+		unowned GLib.List<Peas.PluginInfo> plugins_list = this.engine.get_plugin_list ();
+		var first_plugin = plugins_list.nth_data (0);
+		stdout.printf ("Plugins list: %s\n", first_plugin.get_name ());
+		this.engine.load_plugin (first_plugin);
 
 		this.widget = make_widget ();
 	}

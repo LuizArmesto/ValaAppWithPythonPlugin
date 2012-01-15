@@ -17,11 +17,11 @@ public class Videoteca.VideoWidget : GLib.Object {}
 
 public class Videoteca.MainWindow: Gtk.Window
 {
-	private Gtk.Dialog preferences_dialog;
+	private Videoteca.Plugins plugins;
 
-	public MainWindow (VideoWidget video_widget, Gtk.Dialog preferences_dialog)
+	public MainWindow (VideoWidget video_widget, GLib.Object plugins)
 	{
-		this.preferences_dialog = preferences_dialog;
+		this.plugins = plugins as Videoteca.Plugins;
 
 		var vbox = new Gtk.VBox (false, 3);
 		var menubar = make_menubar ();
@@ -39,6 +39,7 @@ public class Videoteca.MainWindow: Gtk.Window
 		var movie_menuitem = new Gtk.MenuItem ();
 		movie_menuitem.label = "_Movie";
 		var movie_menu = new Gtk.Menu ();
+		movie_menuitem.set_submenu (movie_menu);
 
 		/* Create the Movie menu items */
 		/* Movie > Open */
@@ -46,27 +47,24 @@ public class Videoteca.MainWindow: Gtk.Window
 		movie_open_menuitem.activate.connect (() => {
 			stdout.printf ("activated\n");
 		});
-
 		/* Add the Movie menu items */
 		movie_menu.add (movie_open_menuitem);
-		movie_menuitem.set_submenu (movie_menu);
 
 		/* Create the Edit menu */
 		var edit_menuitem = new Gtk.MenuItem ();
 		edit_menuitem.label = "_Edit";
 		var edit_menu = new Gtk.Menu ();
+		edit_menuitem.set_submenu (edit_menu);
 
 		/* Create the Edit menu items */
 		/* Edit > Preferences */
 		var edit_preferences_menuitem = new Gtk.ImageMenuItem.from_stock (Gtk.Stock.PREFERENCES, null);
 		edit_preferences_menuitem.activate.connect (() => {
-			stdout.printf ("activated\n");
-			this.preferences_dialog.show_all ();
+			var dialog = make_preferences_dialog (this.plugins);
+			dialog.show ();
 		});
-
 		/* Add the Edit menu items */
 		edit_menu.add (edit_preferences_menuitem);
-		edit_menuitem.set_submenu (edit_menu);
 
 		/* Add the menus to menubar */
 		menubar.add (movie_menuitem);
@@ -78,7 +76,7 @@ public class Videoteca.MainWindow: Gtk.Window
 	private Gtk.Toolbar make_toolbar ()
 	{
 		var toolbar = new Gtk.Toolbar ();
-		/* Set the main toolbar correct style */
+		/* Set the main toolbar correct class */
 		var context = toolbar.get_style_context ();
 		context.add_class (Gtk.STYLE_CLASS_PRIMARY_TOOLBAR);
 

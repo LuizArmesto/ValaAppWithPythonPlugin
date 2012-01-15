@@ -14,7 +14,15 @@
 
 public class Videoteca.PreferencesDialog : Gtk.Dialog
 {
-	public PreferencesDialog (PeasGtk.PluginManager plugins_widget)
+	private Videoteca.Plugins plugins;
+
+	public PreferencesDialog (Videoteca.Plugins plugins)
+	{
+		this.plugins = plugins;
+		create_widgets ();
+	}
+
+	public void create_widgets ()
 	{
 		/* Add the buttons */
 		/* Using OK and Cancel to get the correct order */
@@ -24,17 +32,21 @@ public class Videoteca.PreferencesDialog : Gtk.Dialog
 		var vbox = get_children ().nth_data (0) as Gtk.Box;
 		var button_box = vbox.get_children ().nth_data (0) as Gtk.ButtonBox;
 		button_box.set_layout (Gtk.ButtonBoxStyle.EDGE);
+
 		/* Create the content notebook */
 		var notebook = new Gtk.Notebook ();
-		/* Plugins tab */
-		var plugins_label = new Gtk.Label ("Plugins");
-		notebook.append_page (plugins_widget, plugins_label);
 		var content_area = get_content_area () as Gtk.Box;
+
+		/* Plugins tab */
+		var plugins_widget = this.plugins.make_widget ();
+		notebook.append_page (plugins_widget, new Gtk.Label ("Plugins"));
 		content_area.pack_start (notebook, true, true, 0);
+
 		/* Set the correct borders */
 		this.border_width = 5;
 		notebook.border_width = 5;
 		plugins_widget.border_width = 10;
 
+		show_all ();
 	}
 }
