@@ -12,20 +12,22 @@
  *	  Luiz Armesto <luiz.armesto@gmail.com>
  */
 
-Videoteca.MainWindow make_mainwindow (Videoteca.Plugins plugins)
+public delegate Gtk.Window WindowConstructor (Videoteca.Plugins plugins);
+
+Gtk.Window make_mainwindow (Videoteca.Plugins plugins)
 {
 	var video_widget = new Videoteca.VideoWidget ();
-	var mainwindow = new Videoteca.MainWindow (video_widget, plugins);
+	var mainwindow = new Videoteca.MainWindow (video_widget, plugins, make_preferences_window);
 	mainwindow.set_default_size (900, 500);
 	/* Exit when the main window is closed */
 	mainwindow.destroy.connect (Gtk.main_quit);
 	return mainwindow;
 }
 
-Videoteca.PreferencesDialog make_preferences_dialog (Videoteca.Plugins plugins)
+Gtk.Window make_preferences_window (Videoteca.Plugins plugins)
 {
-	var dialog = new Videoteca.PreferencesDialog (plugins);
-	return dialog;
+	var window = new Videoteca.PreferencesWindow (plugins);
+	return window;
 }
 
 Videoteca.Plugins make_plugins ()

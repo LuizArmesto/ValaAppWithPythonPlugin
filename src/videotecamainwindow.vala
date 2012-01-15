@@ -18,9 +18,11 @@ public class Videoteca.VideoWidget : GLib.Object {}
 public class Videoteca.MainWindow: Gtk.Window
 {
 	private Videoteca.Plugins plugins;
+	private WindowConstructor preferences_window_constructor;
 
-	public MainWindow (VideoWidget video_widget, GLib.Object plugins)
+	public MainWindow (VideoWidget video_widget, GLib.Object plugins, WindowConstructor preferences_window_constructor)
 	{
+		this.preferences_window_constructor = preferences_window_constructor;
 		this.plugins = plugins as Videoteca.Plugins;
 
 		var vbox = new Gtk.VBox (false, 3);
@@ -60,8 +62,8 @@ public class Videoteca.MainWindow: Gtk.Window
 		/* Edit > Preferences */
 		var edit_preferences_menuitem = new Gtk.ImageMenuItem.from_stock (Gtk.Stock.PREFERENCES, null);
 		edit_preferences_menuitem.activate.connect (() => {
-			var dialog = make_preferences_dialog (this.plugins);
-			dialog.show ();
+			var preferences_window = this.preferences_window_constructor (this.plugins);
+			preferences_window.show_all ();
 		});
 		/* Add the Edit menu items */
 		edit_menu.add (edit_preferences_menuitem);

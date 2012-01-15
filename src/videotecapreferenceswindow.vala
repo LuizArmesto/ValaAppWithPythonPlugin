@@ -1,4 +1,4 @@
-/* videotecapreferencesdialog.vala
+/* videotecapreferenceswindow.vala
  *
  * Copyright (C) 2012 Luiz Armesto <luiz.armesto@gmail.com>
  *
@@ -12,11 +12,11 @@
  *	  Luiz Armesto <luiz.armesto@gmail.com>
  */
 
-public class Videoteca.PreferencesDialog : Gtk.Dialog
+public class Videoteca.PreferencesWindow : Gtk.Window
 {
 	private Videoteca.Plugins plugins;
 
-	public PreferencesDialog (Videoteca.Plugins plugins)
+	public PreferencesWindow (Videoteca.Plugins plugins)
 	{
 		this.plugins = plugins;
 		create_widgets ();
@@ -26,16 +26,14 @@ public class Videoteca.PreferencesDialog : Gtk.Dialog
 	{
 		/* Add the buttons */
 		/* Using OK and Cancel to get the correct order */
-		add_button (Gtk.Stock.HELP, Gtk.ResponseType.CANCEL);
-		add_button (Gtk.Stock.CLOSE, Gtk.ResponseType.OK);
 		/* Set the buttons layout */
-		var vbox = get_children ().nth_data (0) as Gtk.Box;
-		var button_box = vbox.get_children ().nth_data (0) as Gtk.ButtonBox;
+		var vbox = new Gtk.VBox (false, 2);
+		var button_box = new Gtk.HButtonBox ();
 		button_box.set_layout (Gtk.ButtonBoxStyle.EDGE);
 
 		/* Create the content notebook */
 		var notebook = new Gtk.Notebook ();
-		var content_area = get_content_area () as Gtk.Box;
+		var content_area = new Gtk.HBox (true, 1);
 
 		/* Plugins tab */
 		var plugins_widget = this.plugins.make_widget ();
@@ -47,6 +45,9 @@ public class Videoteca.PreferencesDialog : Gtk.Dialog
 		notebook.border_width = 5;
 		plugins_widget.border_width = 10;
 
-		show_all ();
+		vbox.pack_start (content_area, true, true, 0);
+		vbox.pack_start (button_box, false, true, 0);
+
+		add (vbox);
 	}
 }
