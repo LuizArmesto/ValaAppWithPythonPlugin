@@ -20,17 +20,25 @@ public class Videoteca.MainWindow: Gtk.Window
 	private Videoteca.Plugins plugins;
 	private WindowConstructor preferences_window_constructor;
 
+	public Gtk.MenuBar menubar;
+	public Gtk.Toolbar toolbar;
+
+	private Peas.ExtensionSet plugin_extension_set;
+
 	public MainWindow (VideoWidget video_widget, GLib.Object plugins, WindowConstructor preferences_window_constructor)
 	{
 		this.preferences_window_constructor = preferences_window_constructor;
 		this.plugins = plugins as Videoteca.Plugins;
 
 		var vbox = new Gtk.VBox (false, 3);
-		var menubar = make_menubar ();
-		vbox.pack_start (menubar, false, true, 0);
-		var toolbar = make_toolbar ();
-		vbox.pack_start (toolbar, false, true, 0);
+		this.menubar = make_menubar ();
+		vbox.pack_start (this.menubar, false, true, 0);
+		this.toolbar = make_toolbar ();
+		vbox.pack_start (this.toolbar, false, true, 0);
 		add (vbox);
+
+		this.plugin_extension_set = this.plugins.setup_extension_set (this);
+		this.plugins.load ();
 	}
 
 	private Gtk.MenuBar make_menubar ()

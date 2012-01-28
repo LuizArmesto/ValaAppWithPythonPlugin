@@ -15,7 +15,6 @@
 public class Videoteca.Plugins : GLib.Object
 {
 	public Peas.Engine engine;
-	public PeasGtk.PluginManager widget;
 
 	public Plugins (string path)
 	{
@@ -23,16 +22,43 @@ public class Videoteca.Plugins : GLib.Object
 		this.engine = Peas.Engine.get_default ();
 		this.engine.add_search_path (path, null);
 		this.engine.enable_loader ("python");
-		unowned GLib.List<Peas.PluginInfo> plugins_list = this.engine.get_plugin_list ();
-		var first_plugin = plugins_list.nth_data (0);
-		stdout.printf ("Plugins list: %s\n", first_plugin.get_name ());
-		this.engine.load_plugin (first_plugin);
+	}
 
-		this.widget = make_widget ();
+	public void load ()
+	{
+		unowned GLib.List<Peas.PluginInfo> plugin_list = this.engine.get_plugin_list ();
+		foreach (Peas.PluginInfo plugin in plugin_list)
+		{
+			stdout.printf ("Plugins list: %s\n", plugin.get_name ());
+			this.engine.load_plugin (plugin);
+		}
 	}
 
 	public PeasGtk.PluginManager make_widget ()
 	{
 		return new PeasGtk.PluginManager (this.engine);
+	}
+
+	public void on_extension_added (Peas.ExtensionSet extension_set, Peas.PluginInfo info, Peas.Activatable? activatable, void* data)
+	{
+		stdout.printf ("on_extension_added \n");
+		//activatable.activate ();
+	}
+
+	public Peas.ExtensionSet setup_extension_set (Videoteca.MainWindow window)
+	{
+		var parameters = new GLib.Parameter[1];
+        parameters[0] = { "object", window };
+		var extension_set = Peas.ExtensionSet.newv (this.engine, typeof(Peas.Activatable), parameters);
+		//extension_set.foreach ((Peas.ExtensionSetForeachFunc) on_extension_added, null);
+		extension_set.extension_added.connect ((info, exten) => {
+			var activatable = exten as Peas.Activatable;
+			activatable.activate ();
+		});
+		extension_set.extension_removed.connect((info, exten) => {
+			var activatable = exten as Peas.Activatable;
+			activatable.deactivate ();
+		});
+		return extension_set;
 	}
 }

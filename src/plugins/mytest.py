@@ -13,6 +13,11 @@ class PythonTestPlugin(GObject.Object, Peas.Activatable, PeasGtk.Configurable):
 
     def do_activate(self):
         print("PythonTestPlugin.do_activate", repr(self.object))
+        self.object.set_title("Haaa")
+        new_button = Gtk.ToolButton();
+        new_button.set_stock_id(Gtk.STOCK_NEW)
+        #self.object.toolbar.insert(new_button, -1);
+        print(dir(self.object.props))
 
     def do_deactivate(self):
         print("PythonTestPlugin.do_deactivate", repr(self.object))

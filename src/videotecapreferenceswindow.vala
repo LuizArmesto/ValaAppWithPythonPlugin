@@ -19,17 +19,26 @@ public class Videoteca.PreferencesWindow : Gtk.Window
 	public PreferencesWindow (Videoteca.Plugins plugins)
 	{
 		this.plugins = plugins;
+		this.title = "Preferences";
+		this.window_position = Gtk.WindowPosition.CENTER;
 		create_widgets ();
 	}
 
 	public void create_widgets ()
 	{
-		/* Add the buttons */
-		/* Using OK and Cancel to get the correct order */
+		/* Create the buttons */
+		var close_button = new Gtk.Button.from_stock (Gtk.Stock.CLOSE);
+		close_button.clicked.connect (() => {
+			destroy ();
+		});
+		var help_button = new Gtk.Button.from_stock (Gtk.Stock.HELP);
+		help_button.set_sensitive (false);
 		/* Set the buttons layout */
 		var vbox = new Gtk.VBox (false, 2);
 		var button_box = new Gtk.HButtonBox ();
 		button_box.set_layout (Gtk.ButtonBoxStyle.EDGE);
+		button_box.add (help_button);
+		button_box.add (close_button);
 
 		/* Create the content notebook */
 		var notebook = new Gtk.Notebook ();
