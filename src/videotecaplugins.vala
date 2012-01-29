@@ -12,9 +12,12 @@
  *	  Luiz Armesto <luiz.armesto@gmail.com>
  */
 
+public delegate Gtk.Window Videoteca.WindowConstructor (Videoteca.Plugins plugins);
+
 public class Videoteca.Plugins : GLib.Object
 {
 	public Peas.Engine engine;
+	public Peas.ExtensionSet extension_set;
 
 	public Plugins (string path)
 	{
@@ -39,26 +42,23 @@ public class Videoteca.Plugins : GLib.Object
 		return new PeasGtk.PluginManager (this.engine);
 	}
 
-	public void on_extension_added (Peas.ExtensionSet extension_set, Peas.PluginInfo info, Peas.Activatable? activatable, void* data)
+	public void extension_update_state (Peas.PluginInfo info, Peas.Extension exten, void* data)
 	{
-		stdout.printf ("on_extension_added \n");
-		//activatable.activate ();
+		var activatable = exten as Peas.Activatable;
+		activatable.update_state ();
 	}
 
 	public Peas.ExtensionSet setup_extension_set (Videoteca.MainWindow window)
 	{
-		var parameters = new GLib.Parameter[1];
-        parameters[0] = { "object", window };
-		var extension_set = Peas.ExtensionSet.newv (this.engine, typeof(Peas.Activatable), parameters);
-		//extension_set.foreach ((Peas.ExtensionSetForeachFunc) on_extension_added, null);
-		extension_set.extension_added.connect ((info, exten) => {
+		this.extension_set = new Peas.ExtensionSet (this.engine, typeof (Peas.Activatable), "object", window, null);
+		this.extension_set.extension_added.connect ((info, exten) => {
 			var activatable = exten as Peas.Activatable;
 			activatable.activate ();
 		});
-		extension_set.extension_removed.connect((info, exten) => {
+		this.extension_set.extension_removed.connect((info, exten) => {
 			var activatable = exten as Peas.Activatable;
 			activatable.deactivate ();
 		});
-		return extension_set;
+		return this.extension_set;
 	}
 }

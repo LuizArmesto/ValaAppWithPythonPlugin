@@ -12,9 +12,10 @@
  *	  Luiz Armesto <luiz.armesto@gmail.com>
  */
 
-public delegate Gtk.Window WindowConstructor (Videoteca.Plugins plugins);
 
-Gtk.Window make_mainwindow (Videoteca.Plugins plugins)
+namespace Videoteca
+{
+public Videoteca.MainWindow make_mainwindow (Videoteca.Plugins plugins)
 {
 	var video_widget = new Videoteca.VideoWidget ();
 	var mainwindow = new Videoteca.MainWindow (video_widget, plugins, make_preferences_window);
@@ -24,14 +25,15 @@ Gtk.Window make_mainwindow (Videoteca.Plugins plugins)
 	return mainwindow;
 }
 
-Gtk.Window make_preferences_window (Videoteca.Plugins plugins)
+public Gtk.Window make_preferences_window (Videoteca.Plugins plugins)
 {
 	var window = new Videoteca.PreferencesWindow (plugins);
 	return window;
 }
 
-Videoteca.Plugins make_plugins ()
+public Videoteca.Plugins make_plugins ()
 {
 	var plugins = new Videoteca.Plugins ("./plugins");
 	return plugins;
+}
 }

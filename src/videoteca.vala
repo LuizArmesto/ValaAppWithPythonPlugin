@@ -12,14 +12,20 @@
  *	  Luiz Armesto <luiz.armesto@gmail.com>
  */
 
-class Videoteca.Main : GLib.Object
+class Main : GLib.Object
 {
 	public static int main (string[] args) {
 		Gtk.init (ref args);
 
-		var plugins = make_plugins ();
-		var mainwindow = make_mainwindow (plugins);
+		var plugins = Videoteca.make_plugins ();
+		var mainwindow = Videoteca.make_mainwindow (plugins);
+
 		mainwindow.show_all ();
+		plugins.setup_extension_set (mainwindow);
+
+		plugins.load ();
+
+		plugins.extension_set.foreach ((Peas.ExtensionSetForeachFunc) plugins.extension_update_state, null);
 
 		Gtk.main ();
 		return 0;

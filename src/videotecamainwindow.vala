@@ -18,14 +18,12 @@ public class Videoteca.VideoWidget : GLib.Object {}
 public class Videoteca.MainWindow: Gtk.Window
 {
 	private Videoteca.Plugins plugins;
-	private WindowConstructor preferences_window_constructor;
+	private Videoteca.WindowConstructor preferences_window_constructor;
 
 	public Gtk.MenuBar menubar;
 	public Gtk.Toolbar toolbar;
 
-	private Peas.ExtensionSet plugin_extension_set;
-
-	public MainWindow (VideoWidget video_widget, GLib.Object plugins, WindowConstructor preferences_window_constructor)
+	public MainWindow (VideoWidget video_widget, GLib.Object plugins, Videoteca.WindowConstructor preferences_window_constructor)
 	{
 		this.preferences_window_constructor = preferences_window_constructor;
 		this.plugins = plugins as Videoteca.Plugins;
@@ -36,9 +34,6 @@ public class Videoteca.MainWindow: Gtk.Window
 		this.toolbar = make_toolbar ();
 		vbox.pack_start (this.toolbar, false, true, 0);
 		add (vbox);
-
-		this.plugin_extension_set = this.plugins.setup_extension_set (this);
-		this.plugins.load ();
 	}
 
 	private Gtk.MenuBar make_menubar ()
@@ -81,6 +76,11 @@ public class Videoteca.MainWindow: Gtk.Window
 		menubar.add (edit_menuitem);
 
 		return menubar;
+	}
+
+	public Gtk.Toolbar get_toolbar ()
+	{
+		return this.toolbar;
 	}
 
 	private Gtk.Toolbar make_toolbar ()
