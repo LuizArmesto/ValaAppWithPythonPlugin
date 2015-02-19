@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<repository version="1.2" xmlns="http://www.gtk.org/introspection/core/1.0" xmlns:c="http://www.gtk.org/introspection/c/1.0" xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+<include name="GObject" version="2.0"/>
+<include name="Gtk" version="3.0"/>
+<include name="Peas" version="1.0"/>
+<include name="PeasGtk" version="1.0"/>
+<package name="Videoteca-1.0"/>
+<c:include name="videoteca.h"/>
+<namespace name="Videoteca" version="1.0" c:prefix="Videoteca">
+	<class name="VideoWidget" c:type="VideotecaVideoWidget" glib:type-name="VideotecaVideoWidget" glib:get-type="videoteca_video_widget_get_type" glib:type-struct="VideoWidgetClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="VideoWidgetPrivate" c:type="VideotecaVideoWidgetPrivate*"/>
+		</field>
+		<constructor name="new" c:identifier="videoteca_video_widget_new">
+			<return-value transfer-ownership="full">
+				<type name="Videoteca.VideoWidget" c:type="VideotecaVideoWidget*"/>
+			</return-value>
+		</constructor>
+	</class>
+	<record name="VideoWidgetClass" c:type="VideotecaVideoWidgetClass" glib:is-gtype-struct-for="VideoWidget">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="VideoWidgetPrivate" c:type="VideotecaVideoWidgetPrivate" disguised="1"/>
+	<class name="MainWindow" c:type="VideotecaMainWindow" glib:type-name="VideotecaMainWindow" glib:get-type="videoteca_main_window_get_type" glib:type-struct="MainWindowClass" parent="Gtk.Window">
+		<field name="parent_instance">
+			<type name="Gtk.Window" c:type="GtkWindow"/>
+		</field>
+		<field name="priv">
+			<type name="MainWindowPrivate" c:type="VideotecaMainWindowPrivate*"/>
+		</field>
+		<field name="menubar">
+			<type name="Gtk.MenuBar" c:type="GtkMenuBar*"/>
+		</field>
+		<field name="toolbar">
+			<type name="Gtk.Toolbar" c:type="GtkToolbar*"/>
+		</field>
+		<constructor name="new" c:identifier="videoteca_main_window_new">
+			<parameters>
+				<parameter name="video_widget" transfer-ownership="none">
+					<type name="Videoteca.VideoWidget" c:type="VideotecaVideoWidget*"/>
+				</parameter>
+				<parameter name="plugins" transfer-ownership="none">
+					<type name="GObject.Object" c:type="GObject*"/>
+				</parameter>
+				<parameter name="preferences_window_constructor" transfer-ownership="none" closure="3">
+					<type name="Videoteca.WindowConstructor" c:type="VideotecaWindowConstructor"/>
+				</parameter>
+				<parameter name="preferences_window_constructor_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+			<return-value transfer-ownership="full">
+				<type name="Videoteca.MainWindow" c:type="VideotecaMainWindow*"/>
+			</return-value>
+		</constructor>
+		<method name="get_toolbar" c:identifier="videoteca_main_window_get_toolbar">
+			<return-value transfer-ownership="full">
+				<type name="Gtk.Toolbar" c:type="GtkToolbar*"/>
+			</return-value>
+		</method>
+	</class>
+	<record name="MainWindowClass" c:type="VideotecaMainWindowClass" glib:is-gtype-struct-for="MainWindow">
+		<field name="parent_class">
+			<type name="Gtk.WindowClass" c:type="GtkWindowClass"/>
+		</field>
+	</record>
+	<record name="MainWindowPrivate" c:type="VideotecaMainWindowPrivate" disguised="1"/>
+	<class name="PreferencesWindow" c:type="VideotecaPreferencesWindow" glib:type-name="VideotecaPreferencesWindow" glib:get-type="videoteca_preferences_window_get_type" glib:type-struct="PreferencesWindowClass" parent="Gtk.Window">
+		<field name="parent_instance">
+			<type name="Gtk.Window" c:type="GtkWindow"/>
+		</field>
+		<field name="priv">
+			<type name="PreferencesWindowPrivate" c:type="VideotecaPreferencesWindowPrivate*"/>
+		</field>
+		<constructor name="new" c:identifier="videoteca_preferences_window_new">
+			<parameters>
+				<parameter name="plugins" transfer-ownership="none">
+					<type name="Videoteca.Plugins" c:type="VideotecaPlugins*"/>
+				</parameter>
+			</parameters>
+			<return-value transfer-ownership="full">
+				<type name="Videoteca.PreferencesWindow" c:type="VideotecaPreferencesWindow*"/>
+			</return-value>
+		</constructor>
+		<method name="create_widgets" c:identifier="videoteca_preferences_window_create_widgets">
+			<return-value transfer-ownership="full">
+				<type name="none"/>
+			</return-value>
+		</method>
+	</class>
+	<record name="PreferencesWindowClass" c:type="VideotecaPreferencesWindowClass" glib:is-gtype-struct-for="PreferencesWindow">
+		<field name="parent_class">
+			<type name="Gtk.WindowClass" c:type="GtkWindowClass"/>
+		</field>
+	</record>
+	<record name="PreferencesWindowPrivate" c:type="VideotecaPreferencesWindowPrivate" disguised="1"/>
+	<class name="Plugins" c:type="VideotecaPlugins" glib:type-name="VideotecaPlugins" glib:get-type="videoteca_plugins_get_type" glib:type-struct="PluginsClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="PluginsPrivate" c:type="VideotecaPluginsPrivate*"/>
+		</field>
+		<field name="engine">
+			<type name="Peas.Engine" c:type="PeasEngine*"/>
+		</field>
+		<field name="extension_set">
+			<type name="Peas.ExtensionSet" c:type="PeasExtensionSet*"/>
+		</field>
+		<constructor name="new" c:identifier="videoteca_plugins_new">
+			<parameters>
+				<parameter name="path" transfer-ownership="none">
+					<type name="utf8" c:type="const gchar*"/>
+				</parameter>
+			</parameters>
+			<return-value transfer-ownership="full">
+				<type name="Videoteca.Plugins" c:type="VideotecaPlugins*"/>
+			</return-value>
+		</constructor>
+		<method name="load" c:identifier="videoteca_plugins_load">
+			<return-value transfer-ownership="full">
+				<type name="none"/>
+			</return-value>
+		</method>
+		<method name="make_widget" c:identifier="videoteca_plugins_make_widget">
+			<return-value transfer-ownership="full">
+				<type name="PeasGtk.PluginManager" c:type="PeasGtkPluginManager*"/>
+			</return-value>
+		</method>
+		<method name="extension_update_state" c:identifier="videoteca_plugins_extension_update_state">
+			<parameters>
+				<parameter name="info" transfer-ownership="none">
+					<type name="Peas.PluginInfo" c:type="PeasPluginInfo*"/>
+				</parameter>
+				<parameter name="exten" transfer-ownership="none">
+					<type name="Peas.Extension" c:type="PeasExtension*"/>
+				</parameter>
+			</parameters>
+			<return-value transfer-ownership="full">
+				<type name="none"/>
+			</return-value>
+		</method>
+		<method name="setup_extension_set" c:identifier="videoteca_plugins_setup_extension_set">
+			<parameters>
+				<parameter name="window" transfer-ownership="none">
+					<type name="Videoteca.MainWindow" c:type="VideotecaMainWindow*"/>
+				</parameter>
+			</parameters>
+			<return-value transfer-ownership="full">
+				<type name="Peas.ExtensionSet" c:type="PeasExtensionSet*"/>
+			</return-value>
+		</method>
+	</class>
+	<record name="PluginsClass" c:type="VideotecaPluginsClass" glib:is-gtype-struct-for="Plugins">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="PluginsPrivate" c:type="VideotecaPluginsPrivate" disguised="1"/>
+	<callback name="WindowConstructor" c:type="VideotecaWindowConstructor">
+		<parameters>
+			<parameter name="plugins" transfer-ownership="none">
+				<type name="Videoteca.Plugins" c:type="VideotecaPlugins*"/>
+			</parameter>
+			<parameter name="user_data" transfer-ownership="none" closure="1">
+				<type name="gpointer" c:type="void*"/>
+			</parameter>
+		</parameters>
+		<return-value transfer-ownership="full">
+			<type name="Gtk.Window" c:type="GtkWindow*"/>
+		</return-value>
+	</callback>
+	<function name="make_mainwindow" c:identifier="videoteca_make_mainwindow">
+		<parameters>
+			<parameter name="plugins" transfer-ownership="none">
+				<type name="Videoteca.Plugins" c:type="VideotecaPlugins*"/>
+			</parameter>
+		</parameters>
+		<return-value transfer-ownership="full">
+			<type name="Videoteca.MainWindow" c:type="VideotecaMainWindow*"/>
+		</return-value>
+	</function>
+	<function name="make_preferences_window" c:identifier="videoteca_make_preferences_window">
+		<parameters>
+			<parameter name="plugins" transfer-ownership="none">
+				<type name="Videoteca.Plugins" c:type="VideotecaPlugins*"/>
+			</parameter>
+		</parameters>
+		<return-value transfer-ownership="full">
+			<type name="Gtk.Window" c:type="GtkWindow*"/>
+		</return-value>
+	</function>
+	<function name="make_plugins" c:identifier="videoteca_make_plugins">
+		<return-value transfer-ownership="full">
+			<type name="Videoteca.Plugins" c:type="VideotecaPlugins*"/>
+		</return-value>
+	</function>
+</namespace>
+</repository>

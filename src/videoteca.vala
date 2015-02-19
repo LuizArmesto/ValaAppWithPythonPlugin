@@ -25,7 +25,7 @@ class Main : GLib.Object
 
 		plugins.load ();
 
-		plugins.extension_set.foreach ((Peas.ExtensionSetForeachFunc) plugins.extension_update_state, null);
+		plugins.extension_set.foreach ((Peas.ExtensionSetForeachFunc) plugins.extension_update_state);
 
 		Gtk.main ();
 		return 0;

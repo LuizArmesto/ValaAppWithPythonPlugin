@@ -18,7 +18,7 @@ public class Videoteca.VideoWidget : GLib.Object {}
 public class Videoteca.MainWindow: Gtk.Window
 {
 	private Videoteca.Plugins plugins;
-	private Videoteca.WindowConstructor preferences_window_constructor;
+	private unowned Videoteca.WindowConstructor preferences_window_constructor;
 
 	public Gtk.MenuBar menubar;
 	public Gtk.Toolbar toolbar;

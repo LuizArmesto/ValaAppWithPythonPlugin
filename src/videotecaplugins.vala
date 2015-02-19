@@ -42,7 +42,7 @@ public class Videoteca.Plugins : GLib.Object
 		return new PeasGtk.PluginManager (this.engine);
 	}
 
-	public void extension_update_state (Peas.PluginInfo info, Peas.Extension exten, void* data)
+	public void extension_update_state (Peas.PluginInfo info, Peas.Extension exten)
 	{
 		var activatable = exten as Peas.Activatable;
 		activatable.update_state ();
